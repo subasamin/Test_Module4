@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Khuyến Mãi - Rạp Chiếu Phim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://img.freepik.com/premium-photo/paper-frames-decorative-backgrounds-vintageinspired-urban-themes-creative-templates_1020495-135254.jpg'); /* Đường dẫn đến hình nền chủ đề phim ảnh */
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 50px;
+    }
+    .table th, .table td {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center mb-4">Danh Sách Khuyến Mãi</h1>
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <input type="text" class="form-control" placeholder="Tìm kiếm khuyến mãi..." id="search-promo">
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-primary w-100" onclick="searchPromotion()">Tìm kiếm</button>
+    </div>
+  </div>
+
+  <div class="mb-3 text-end">
+    <a href="/coupon/formCreate" class="btn btn-success">Thêm khuyến mãi</a>
+  </div>
+
+  <table class="table table-striped table-dark">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên Khuyến Mãi</th>
+      <th>Thời gian bắt đầu</th>
+      <th>Thời gian kết thúc</th>
+      <th>Mức giảm giá</th>
+      <th>Chi tiết</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody id="promotion-list">
+    <tr th:each="coupon:${coupons}">
+      <td th:text="${coupon.getId()}"></td>
+      <td th:text="${coupon.getName()}"></td>
+      <td th:text="${coupon.getStatTime()}"></td>
+      <td th:text="${coupon.getEndTime()}"></td>
+      <td th:text="${coupon.getDiscount()}"></td>
+      <td th:text="${coupon.getDescription()}"></td>
+      <td>
+        <form action="/coupon/formUpdate">
+          <button type="submit" class="btn btn-danger btn-sm" th:value="${coupon.getId()}" name="idUpdate">Sửa</button>
+        </form>
+        </td>
+      <td>
+        <form action="/coupon/delete">
+          <button type="submit" class="btn btn-danger btn-sm" th:value="${coupon.getId()}" name="idDelete" onclick="return confirmDelete();">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+
+<script>
+  function confirmDelete() {
+    if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
+      return true; // Nếu người dùng xác nhận, cho phép thực hiện hành động xóa
+    } else {
+      return false; // Nếu người dùng không xác nhận, hủy hành động
+    }
+  }
+
+  function confirmUpdate() {
+    if (confirm("Bạn có chắc chắn muốn sửa khuyến mãi này không?")) {
+      return true; // Nếu người dùng xác nhận, cho phép thực hiện hành động xóa
+    } else {
+      return false; // Nếu người dùng không xác nhận, hủy hành động
+    }
+  }
+
+
+</script>
+</html>
